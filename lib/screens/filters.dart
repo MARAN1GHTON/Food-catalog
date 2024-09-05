@@ -36,8 +36,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
     _veganFilterSet = widget.currentFilters[Filter.vegan]!;
   }
 
-  // Future<bool?> _onPopInvoked(bool didPop) async {
-  //   if (didPop) {
   void _saveFilters() {
     Navigator.of(context).pop({
       Filter.glutenFree: _glutenFreeFilterSet,
@@ -45,22 +43,16 @@ class _FiltersScreenState extends State<FiltersScreen> {
       Filter.vegetarian: _vegetarianFilterSet,
       Filter.vegan: _veganFilterSet,
     });
-    //   return true;
-    // }
-    // return false;
   }
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, result) {
         if (didPop) {
           _saveFilters();
         }
-        //return true;
       },
-      canPop: true,
-      //_onPopInvoked,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Ваши фильтры'),
@@ -68,68 +60,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
         drawer: MainDrawer(onSelectScreen: (identifier) {
           Navigator.of(context).pop();
           if (identifier == 'meals') {
-            Navigator.of(context).push(
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => const TabsScreen(),
               ),
             );
           }
         }),
-        body:
-            // PopScope(
-            //   canPop: true,
-            //   onPopInvoked: (bool didPop) async {
-            //     if (didPop) {
-            //     Navigator.of(context).pop({
-            //       Filter.glutenFree: _glutenFreeFilterSet,
-            //       Filter.lactoseFree: _lactoseFreeFilterSet,
-            //       Filter.vegetarian: _veganFilterSet,
-            //       Filter.vegan: _veganFilterSet,
-            //     });
-            //    return;
-            //   }
-            //   return;
-            //   }
-            // child:
-            Column(
+        body: Column(
           children: [
-            //   PopScope(
-            //     onPopInvoked: (bool didPop) async {
-            //       if (didPop) {
-            //         Navigator.of(context).pop({
-            //           Filter.glutenFree: _glutenFreeFilterSet,
-            //           Filter.lactoseFree: _lactoseFreeFilterSet,
-            //           Filter.vegetarian: _veganFilterSet,
-            //           Filter.vegan: _veganFilterSet,
-            //         });
-            //         return;
-            //       }
-            //       return;
-            //     },
-            //     canPop: false,
-            //   ),
-            SwitchListTile(
-              value: _glutenFreeFilterSet,
-              onChanged: (newValue) {
-                setState(() {
-                  _glutenFreeFilterSet = newValue;
-                });
-              },
-              title: Text(
-                'Не содержит глютена',
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                    ),
-              ),
-              subtitle: Text(
-                'Показать только блюда без глютена',
-                style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                    ),
-              ),
-              activeColor: Theme.of(context).colorScheme.tertiary,
-              contentPadding: const EdgeInsets.only(left: 34, right: 22),
-            ),
             SwitchListTile(
               value: _lactoseFreeFilterSet,
               onChanged: (newValue) {
@@ -145,6 +84,28 @@ class _FiltersScreenState extends State<FiltersScreen> {
               ),
               subtitle: Text(
                 'Показать только блюда без лактозы',
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
+              ),
+              activeColor: Theme.of(context).colorScheme.tertiary,
+              contentPadding: const EdgeInsets.only(left: 34, right: 22),
+            ),
+            SwitchListTile(
+              value: _glutenFreeFilterSet,
+              onChanged: (newValue) {
+                setState(() {
+                  _glutenFreeFilterSet = newValue;
+                });
+              },
+              title: Text(
+                'Толькое блюда без глютена',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                    ),
+              ),
+              subtitle: Text(
+                'Показать только блюда без глютена',
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                       color: const Color.fromARGB(255, 255, 255, 255),
                     ),

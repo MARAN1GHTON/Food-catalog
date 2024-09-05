@@ -37,26 +37,19 @@ class _TabsScreenState extends State<TabsScreen> {
   void _toggleMealFavoriteStatus(Meal meal) {
     final isExisting = _favoriteMeals.contains(meal);
 
-    // setState(() {
-    //   meal.isFavorite = !meal.isFavorite;
-    // });
-    // setState(() {
     if (isExisting) {
       setState(() {
         _favoriteMeals.remove(meal);
-        //meal.isFavorite = false;
       });
       _showInfoMessage('Чао персик, дозревай');
     } else {
       setState(() {
         _favoriteMeals.add(meal);
-        // meal.isFavorite = true;
+
         _showInfoMessage('Опа чиназес, сюда!');
       });
     }
   }
-  //);
-  // }
 
   void _selectedPage(int index) {
     setState(() {
@@ -65,7 +58,9 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
   void _setScreen(String identifier) async {
-    Navigator.of(context).pop<Map<Filter, bool>>();
+    Navigator.of(context).pop
+        //<Map<Filter, bool>>
+        ();
     if (identifier == "filtres") {
       final result = await Navigator.of(context).push<Map<Filter, bool>>(
         MaterialPageRoute(
@@ -79,9 +74,6 @@ class _TabsScreenState extends State<TabsScreen> {
         _selectedFilters = result ?? kInitialFilters;
       });
     }
-    //else {
-    // Navigator.of(context).pop();
-    // }
   }
 
   @override
@@ -90,7 +82,7 @@ class _TabsScreenState extends State<TabsScreen> {
       if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
         return false;
       }
-      if (_selectedFilters[Filter.glutenFree]! && !meal.isLactoseFree) {
+      if (_selectedFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
         return false;
       }
       if (_selectedFilters[Filter.vegetarian]! && !meal.isVegetarian) {
